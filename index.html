@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Teams Decision Flowchart</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+            color: #212529;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #dee2e6;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #212529;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #495057;
+            font-size: 1.1rem;
+        }
+        
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .phase {
+            width: 100%;
+            max-width: 1200px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .phase:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .phase-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .phase-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: #212529;
+            color: #ffffff;
+            border: 3px solid #212529;
+        }
+        
+        .teams-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .team-card {
+            flex: 1;
+            min-width: 280px;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #212529;
+            background: #ffffff;
+            position: relative;
+            color: #212529;
+        }
+        
+        .team-card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .engagement-level {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .primary {
+            background: #212529;
+            color: #ffffff;
+            border: 2px solid #212529;
+        }
+        
+        .primary::before {
+            content: "★ ";
+            font-size: 1rem;
+        }
+        
+        .secondary {
+            background: #ffffff;
+            color: #212529;
+            border: 2px solid #212529;
+        }
+        
+        .secondary::before {
+            content: "▲ ";
+            font-size: 0.8rem;
+        }
+        
+        .consulting {
+            background: #f8f9fa;
+            color: #212529;
+            border: 2px dashed #495057;
+        }
+        
+        .consulting::before {
+            content: "◆ ";
+            font-size: 0.8rem;
+        }
+        
+        .inactive {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 2px dashed #adb5bd;
+            opacity: 0.7;
+        }
+        
+        .inactive .engagement-level {
+            background: #e9ecef;
+            color: #6c757d;
+            border: 2px dashed #adb5bd;
+        }
+        
+        .inactive::before {
+            content: "○ ";
+            font-size: 0.8rem;
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            margin-top: 25px;
+        }
+        
+        .team-full-name {
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+        
+        .team-role {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .when-to-use {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            padding: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #212529;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .when-to-use::before {
+            content: "When to engage: ";
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .connector {
+            width: 4px;
+            height: 40px;
+            background: #212529;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .connector::before {
+            content: "▼";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #212529;
+            font-size: 1.2rem;
+        }
+        
+        .legend {
+            margin-top: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        
+        .legend h3 {
+            color: #212529;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .legend-symbol {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-width: 30px;
+            text-align: center;
+            color: #212529;
+        }
+        
+        .legend-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #212529;
+        }
+        
+        .legend-text strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+        
+        .screen-reader-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .teams-row {
+                flex-direction: column;
+            }
+            
+            .team-card {
+                min-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .legend-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .engagement-level {
+                position: static;
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+            
+            .team-name {
+                margin-top: 10px;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .team-card,
+            .phase,
+            .legend,
+            .legend-item {
+                border-width: 3px;
+            }
+            
+            .engagement-level {
+                border-width: 3px;
+            }
+        }
+        
+        /* Focus indicators for keyboard navigation */
+        .team-card:focus,
+        .phase:focus {
+            outline: 3px solid #0066cc;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Accessibility Teams in PDLC</h1>
+            <p>Decision flowchart for when to engage DAC, ACIS, and WAT teams</p>
+        </div>
+        
+        <div class="flowchart">
+            <!-- Planning Phase -->
+            <div class="phase" tabindex="0" role="region" aria-labelledby="phase1-title">
+                <div class="phase-title" id="phase1-title">
+                    <div class="phase-number" aria-hidden="true">1</div>
+                    Planning & Strategy Phase
+                </div>
+                <div class="teams-row">
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="dac-planning">
+                        <div class="engagement-level primary">
+                            <span class="screen-reader-only">Primary lead - </span>LEAD
+                        </div>
+                        <div class="team-name" id="dac-planning">DAC</div>
+                        <div class="team-full-name">Digital Accessibility Compliance</div>
+                        <div class="team-role">Policy development, standards setting, risk assessment</div>
+                        <div class="when-to-use">Setting accessibility requirements, defining standards, conducting risk analysis, establishing corporate policy</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="acis-planning">
+                        <div class="engagement-level consulting">
+                            <span class="screen-reader-only">Consulting role - </span>CONSULT
+                        </div>
+                        <div class="team-name" id="acis-planning">ACIS</div>
+                        <div class="team-full-name">Accessible Content and Inclusive Solutions</div>
+                        <div class="team-role">Content strategy planning for inclusive design</div>
+                        <div class="when-to-use">Planning content creation workflows, defining inclusive authoring processes, early content strategy consultation</div>
+                    </div>
+                    <div class="team-card inactive" tabindex="0" role="article" aria-labelledby="wat-planning">
+                        <div class="engagement-level inactive">
+                            <span class="screen-reader-only">Not involved - </span>MINIMAL
+                        </div>
+                        <div class="team-name" id="wat-planning">WAT</div>
+                        <div class="team-full-name">Web Accessibility Testing</div>
+                        <div class="team-role">Not typically involved in planning phase</div>
+                        <div class="when-to-use">Limited involvement at this stage - may provide input on testing requirements for planning purposes</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector" aria-hidden="true"></div>
+            
+            <!-- Design Phase -->
+            <div class="phase" tabindex="0" role="region" aria-labelledby="phase2-title">
+                <div class="phase-title" id="phase2-title">
+                    <div class="phase-number" aria-hidden="true">2</div>
+                    Design & Architecture Phase
+                </div>
+                <div class="teams-row">
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="dac-design">
+                        <div class="engagement-level secondary">
+                            <span class="screen-reader-only">Secondary support - </span>SUPPORT
+                        </div>
+                        <div class="team-name" id="dac-design">DAC</div>
+                        <div class="team-full-name">Digital Accessibility Compliance</div>
+                        <div class="team-role">Technical standards guidance, universal design principles</div>
+                        <div class="when-to-use">WCAG/WAI-ARIA expertise needed, innovative solutions required, complex accessibility challenges, AI/ML integration</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="acis-design">
+                        <div class="engagement-level primary">
+                            <span class="screen-reader-only">Primary lead - </span>LEAD
+                        </div>
+                        <div class="team-name" id="acis-design">ACIS</div>
+                        <div class="team-full-name">Accessible Content and Inclusive Solutions</div>
+                        <div class="team-role">Accessible task design, inclusive content authoring solutions</div>
+                        <div class="when-to-use">Designing content creation processes, assessment tasks, authoring workflows, inclusive design implementation</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="wat-design">
+                        <div class="engagement-level consulting">
+                            <span class="screen-reader-only">Consulting role - </span>CONSULT
+                        </div>
+                        <div class="team-name" id="wat-design">WAT</div>
+                        <div class="team-full-name">Web Accessibility Testing</div>
+                        <div class="team-role">Testing methodology consultation</div>
+                        <div class="when-to-use">Understanding testing requirements for design decisions, early testability review, QA process planning</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector" aria-hidden="true"></div>
+            
+            <!-- Development Phase -->
+            <div class="phase" tabindex="0" role="region" aria-labelledby="phase3-title">
+                <div class="phase-title" id="phase3-title">
+                    <div class="phase-number" aria-hidden="true">3</div>
+                    Development & Content Creation Phase
+                </div>
+                <div class="teams-row">
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="dac-dev">
+                        <div class="engagement-level consulting">
+                            <span class="screen-reader-only">Consulting role - </span>CONSULT
+                        </div>
+                        <div class="team-name" id="dac-dev">DAC</div>
+                        <div class="team-full-name">Digital Accessibility Compliance</div>
+                        <div class="team-role">Custom solutions, remediation guidance</div>
+                        <div class="when-to-use">Complex technical issues, custom engineering needs, AI/ML integration, innovative solution development</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="acis-dev">
+                        <div class="engagement-level primary">
+                            <span class="screen-reader-only">Primary lead - </span>LEAD
+                        </div>
+                        <div class="team-name" id="acis-dev">ACIS</div>
+                        <div class="team-full-name">Accessible Content and Inclusive Solutions</div>
+                        <div class="team-role">Accessible content creation, alt text, alternate formats</div>
+                        <div class="when-to-use">Creating base content, supplemental accessible content, alternate test formats (large print, braille), content authoring</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="wat-dev">
+                        <div class="engagement-level secondary">
+                            <span class="screen-reader-only">Secondary support - </span>SUPPORT
+                        </div>
+                        <div class="team-name" id="wat-dev">WAT</div>
+                        <div class="team-full-name">Web Accessibility Testing</div>
+                        <div class="team-role">Early accessibility validation</div>
+                        <div class="when-to-use">Development checkpoints requiring accessibility validation, iterative testing during development</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector" aria-hidden="true"></div>
+            
+            <!-- Testing Phase -->
+            <div class="phase" tabindex="0" role="region" aria-labelledby="phase4-title">
+                <div class="phase-title" id="phase4-title">
+                    <div class="phase-number" aria-hidden="true">4</div>
+                    Testing & Quality Assurance Phase
+                </div>
+                <div class="teams-row">
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="dac-test">
+                        <div class="engagement-level consulting">
+                            <span class="screen-reader-only">Consulting role - </span>CONSULT
+                        </div>
+                        <div class="team-name" id="dac-test">DAC</div>
+                        <div class="team-full-name">Digital Accessibility Compliance</div>
+                        <div class="team-role">Usability analysis, complex issue resolution</div>
+                        <div class="when-to-use">Accessibility usability testing needed, resolving complex conformance issues, user experience analysis</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="acis-test">
+                        <div class="engagement-level secondary">
+                            <span class="screen-reader-only">Secondary support - </span>SUPPORT
+                        </div>
+                        <div class="team-name" id="acis-test">ACIS</div>
+                        <div class="team-full-name">Accessible Content and Inclusive Solutions</div>
+                        <div class="team-role">Content-related testing support</div>
+                        <div class="when-to-use">Testing reveals content accessibility issues requiring remediation, content validation and correction</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="wat-test">
+                        <div class="engagement-level primary">
+                            <span class="screen-reader-only">Primary lead - </span>LEAD
+                        </div>
+                        <div class="team-name" id="wat-test">WAT</div>
+                        <div class="team-full-name">Web Accessibility Testing</div>
+                        <div class="team-role">End-to-end WCAG conformance testing</div>
+                        <div class="when-to-use">Comprehensive accessibility testing of applications, assessments, products - automated and manual testing methodologies</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector" aria-hidden="true"></div>
+            
+            <!-- Deployment Phase -->
+            <div class="phase" tabindex="0" role="region" aria-labelledby="phase5-title">
+                <div class="phase-title" id="phase5-title">
+                    <div class="phase-number" aria-hidden="true">5</div>
+                    Deployment & Monitoring Phase
+                </div>
+                <div class="teams-row">
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="dac-deploy">
+                        <div class="engagement-level primary">
+                            <span class="screen-reader-only">Primary lead - </span>LEAD
+                        </div>
+                        <div class="team-name" id="dac-deploy">DAC</div>
+                        <div class="team-full-name">Digital Accessibility Compliance</div>
+                        <div class="team-role">Risk management, policy compliance, ongoing monitoring</div>
+                        <div class="when-to-use">Ensuring corporate policy compliance, managing accessibility risks, post-launch monitoring, regulatory compliance</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="acis-deploy">
+                        <div class="engagement-level consulting">
+                            <span class="screen-reader-only">Consulting role - </span>CONSULT
+                        </div>
+                        <div class="team-name" id="acis-deploy">ACIS</div>
+                        <div class="team-full-name">Accessible Content and Inclusive Solutions</div>
+                        <div class="team-role">Content updates and maintenance</div>
+                        <div class="when-to-use">Ongoing content accessibility maintenance, content updates required, new accessible format needs</div>
+                    </div>
+                    <div class="team-card" tabindex="0" role="article" aria-labelledby="wat-deploy">
+                        <div class="engagement-level secondary">
+                            <span class="screen-reader-only">Secondary support - </span>SUPPORT
+                        </div>
+                        <div class="team-name" id="wat-deploy">WAT</div>
+                        <div class="team-full-name">Web Accessibility Testing</div>
+                        <div class="team-role">Final verification and periodic re-testing</div>
+                        <div class="when-to-use">Final pre-launch verification, scheduled accessibility audits, ongoing compliance testing</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legend" role="region" aria-labelledby="legend-title">
+            <h3 id="legend-title">Team Engagement Levels</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-symbol" aria-hidden="true">★</div>
+                    <div class="legend-text">
+                        <strong>LEAD - Primary Responsibility</strong>
+                        Main decision-making authority and accountability for accessibility outcomes in this phase
+                    </div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol" aria-hidden="true">▲</div>
+                    <div class="legend-text">
+                        <strong>SUPPORT - Secondary Role</strong>
+                        Active supporting role with specific expertise contributions and collaborative involvement
+                    </div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol" aria-hidden="true">◆</div>
+                    <div class="legend-text">
+                        <strong>CONSULT - Advisory Role</strong>
+                        Available for consultation when specialized expertise is needed, on-demand involvement
+                    </div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-symbol" aria-hidden="true">○</div>
+                    <div class="legend-text">
+                        <strong>MINIMAL - Limited Involvement</strong>
+                        Little to no involvement in this phase, may provide limited input if specifically requested
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
